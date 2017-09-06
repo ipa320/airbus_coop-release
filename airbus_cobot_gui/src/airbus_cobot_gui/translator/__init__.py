@@ -1,1 +1,0 @@
-from translator_widget import TranslatorUi
