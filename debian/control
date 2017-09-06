@@ -1,0 +1,12 @@
+Source: ros-indigo-airbus-ssm-plugin
+Section: misc
+Priority: extra
+Maintainer: Ludovic Delval <led@ipa.fhg.de>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-airbus-cobot-gui, ros-indigo-airbus-pyqt-extend, ros-indigo-airbus-ssm-core, ros-indigo-catkin, ros-indigo-rospy
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-airbus-ssm-plugin
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-airbus-cobot-gui, ros-indigo-airbus-pyqt-extend, ros-indigo-airbus-ssm-core, ros-indigo-rospy
+Description: The airbus_ssm_plugin package
