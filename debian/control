@@ -1,0 +1,12 @@
+Source: ros-indigo-airbus-coop
+Section: misc
+Priority: extra
+Maintainer: Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-catkin
+Homepage: http://ros.org/wiki/airbus_coop
+Standards-Version: 3.9.2
+
+Package: ros-indigo-airbus-coop
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-airbus-cobot-gui, ros-indigo-airbus-docgen, ros-indigo-airbus-plugin-log-manager, ros-indigo-airbus-plugin-node-manager, ros-indigo-airbus-plugin-rqt, ros-indigo-airbus-plugin-rviz, ros-indigo-airbus-pyqt-extend, ros-indigo-airbus-ssm-core, ros-indigo-airbus-ssm-plugin, ros-indigo-airbus-ssm-tutorial
+Description: The airbus_coop metapackage
