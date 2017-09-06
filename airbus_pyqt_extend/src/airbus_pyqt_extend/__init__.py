@@ -1,2 +1,0 @@
-import QtAgiCore
-import QtAgiGui
