@@ -83,7 +83,12 @@ class ssmInterpreter:
             self.CheckBool = False
             return
         else:
-            self.skillProvider = ssm_skill_provider.SkillProvider(get_pkg_dir_from_prefix(str(skill.attrib['expr'])))
+            try:
+                self.skillProvider = ssm_skill_provider.SkillProvider(get_pkg_dir_from_prefix(str(skill.attrib['expr'])))
+            except Exception as ex:
+                rospy.logerr(ex)
+                rospy.logerr('[SCXML Interpreter] Skill register XML not found.')
+                self.CheckBool = False
             
         return self.constructSSM()
     
@@ -127,7 +132,7 @@ class ssmInterpreter:
                 data_ID = data.attrib['id']
                 data_expr = data.attrib['expr']
                 SSM.userdata[data_ID] = data_expr
-                
+        
         '''
             Read the states in the scxml
             If there is a problem in a state the interpreter will return and failed
@@ -158,8 +163,12 @@ class ssmInterpreter:
                 if(type(current_SM) is not ssm_concurrence.ssmConcurrence):
                    final_states = self.get_final_states_id(self.root.find(parent))
                    if(final_states is None):
-                       self.CheckBool = False
-                       return
+                        self.CheckBool = False
+                        try:
+                            current_SM.close()
+                        except Exception as ex:
+                            raise Exception(ex)
+                        return None
                 #List all states and all parallel states
                 list_state = self.root.findall(parent+'/state')
                 list_parallel = self.root.findall(parent+'/parallel')
@@ -168,29 +177,44 @@ class ssmInterpreter:
                 for parallel in list_parallel:
                     ##Construct parallel state
                     self.constructParallel(parallel, parent, current_SM, SSM, final_states)
+                    if(self.CheckBool == False):
+                        try:
+                            current_SM.close()
+                        except Exception as ex:
+                            raise Exception(ex)
+                        return None
 
                 for state in list_state:
                     if(state.find('state') is not None):
                         self.constructCompoundState(state, parent, current_SM, SSM, final_states)  
                     else:
                         self.constructSimpleState(state, current_SM, SSM, final_states)
-
+                    if(self.CheckBool == False):
+                        try:
+                            current_SM.close()
+                        except Exception as ex:
+                            raise Exception(ex)
+                        return None
+                    
                 
-                #open the current SM for construction
-                current_SM.close()        
-            ##Current level is finished
-            if(self.CheckBool == False):
-                return None
+                ##Current level is finished
+                #close the current SM for construction
+                try:
+                    current_SM.close()
+                except Exception as ex:
+                    raise Exception(ex)
             
             if(len(self._next_parent_list)==0):##There is no lower level
                 finish_ = True
             else:
                 self._current_parent_list = self._next_parent_list ##copy the new list of parent
                 self._current_SM_list = self._next_SM_list ##copy the list of State Machine
+                
         if(self.CheckBool == False):
             return None
         else:   
             return SSM
+    
     
     def constructParallel(self, current_level, parent, current_openSM, mainSM, final_states):
         
@@ -320,15 +344,17 @@ class ssmInterpreter:
                         self.CheckBool = False
                         return
                 
-                outcomes_.append(event)
-                transitions_[event] = target
+                    outcomes_.append(event)
+                    transitions_[event] = target
 
         ##Add the datamodel
         datamodel_ = self.get_datamodel(current_level,mainSM, ID)
-            
+        if(datamodel_ is None):
+            return    
         ##Find the io_keys
         keys_ = self.findIOkeys(current_level, ID)
-        
+        if(keys_ is None):
+            return
         ##Add the intial state
         initial = current_level.find("initial")
         if(initial is None):
@@ -375,17 +401,16 @@ class ssmInterpreter:
                     target = event
                     
             transitions_[event] = target
-        
         datamodel_ = self.get_datamodel(current_level,mainSM, ID)
+
         ##Find the skill
         skill_name = current_level.find("./datamodel/data[@id='skill']")
         if(skill_name is not None):
             if('expr' in skill_name.attrib):
                 try:
-                    State = self.skillProvider.load(skill_name.attrib.get('expr'))()
+                    State_ref = self.skillProvider.load(skill_name.attrib.get('expr'))
+                    State = State_ref()
                 except Exception as ex:
-                    rospy.logerr('[SCXML Interpreter] Import fail from Skill "%s" in state : "%s"!'%(data.attrib['expr'],ID))
-                    rospy.logerr(ex)
                     self.CheckBool = False
                     return
             else:
@@ -397,7 +422,9 @@ class ssmInterpreter:
             State = ssm_state.EmptyState()
             
         keys_ = self.findIOkeys(current_level, ID)
-        
+        if(keys_ is None):
+            return
+
         State.register_io_keys(keys_) 
         State._datamodel = datamodel_   
         State._onEntry = onEntry
