@@ -1,21 +1,12 @@
-# airbus_ssm_core
+Travis-CI: [![Build Status](https://travis-ci.org/ipa320/airbus_coop.svg?branch=indigo_dev)](https://travis-ci.org/ipa320/airbus_coop)
+
+# Airbus_coop
 <a id="top"/> 
 
-This repository holds a state machine interpretor based on the scxml standard
+This repository holds 3 main groups of tools:
 
-## Contents
-
-1. <a href="#1--execution">Execution</a>
-
-
-## 1. Execution: <a id="1--execution"/> 
-```
-roslaunch airbus_ssm_core ssm.launch scxml_file:=default
-
-```
-
-Input parameters are:
-- scxml_file: the scxml file you want to execute. It should be located in the airbus_ssm_core/resources folder
+- Autogeneration of documentation
+- A customizable graphical user interface to control and debug ROS applications
+- Autogenation of state machines code based on SCXML standard
 
 <a href="#top">top</a>
-
