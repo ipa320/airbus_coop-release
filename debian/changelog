@@ -1,0 +1,31 @@
+ros-indigo-airbus-plugin-rviz (0.0.4-0trusty) trusty; urgency=high
+
+
+
+ -- Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>  Tue, 12 Sep 2017 22:00:00 -0000
+
+ros-indigo-airbus-plugin-rviz (0.0.3-0trusty) trusty; urgency=high
+
+  * Merge pull request #33 <https://github.com/ipa320/airbus_coop/issues/33> from ipa-nhg/Rename
+    Rename packages
+  * rename plugin_rviz to airbus_plugin_rviz
+  * Contributors: Nadia Hammoudeh García, ipa-nhg
+
+ -- Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>  Tue, 05 Sep 2017 22:00:00 -0000
+
+ros-indigo-airbus-plugin-rviz (0.0.2-0trusty) trusty; urgency=high
+
+  * removed  old commented code
+  * Added license files
+  * Changed order in the the licensing header
+  * added Airbus to the licensing header
+  * added licensing apache2.0 header
+  * update and anify package.xml files
+  * Removed all hardware specific plugins and dashboard, cleaning up all the hardware specifics launchs / configs files
+  * Review CMakelists and package files
+  * added needed dependencies packages
+  * Contributors: ipa-led, ipa-nhg
+
+ -- Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>  Mon, 04 Sep 2017 22:00:00 -0000
+
+

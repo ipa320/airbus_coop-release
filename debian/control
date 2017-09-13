@@ -1,0 +1,12 @@
+Source: ros-indigo-airbus-plugin-rviz
+Section: misc
+Priority: extra
+Maintainer: Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-airbus-cobot-gui, ros-indigo-airbus-pyqt-extend, ros-indigo-catkin, ros-indigo-roslib, ros-indigo-rospy, ros-indigo-rviz
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-airbus-plugin-rviz
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-airbus-cobot-gui, ros-indigo-airbus-pyqt-extend, ros-indigo-roslib, ros-indigo-rospy, ros-indigo-rviz
+Description: The airbus_plugin_rviz package
