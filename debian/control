@@ -1,0 +1,12 @@
+Source: ros-indigo-airbus-plugin-node-manager
+Section: misc
+Priority: extra
+Maintainer: Nadia Hammoudeh Garcia <nhg@ipa.fhg.de>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-airbus-cobot-gui, ros-indigo-catkin, ros-indigo-roslib, ros-indigo-rospy
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-airbus-plugin-node-manager
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-airbus-cobot-gui, ros-indigo-roslib, ros-indigo-rospy
+Description: The airbus_plugin_node_manager package
